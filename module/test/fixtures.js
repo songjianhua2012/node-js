@@ -1,3 +1,6 @@
+var Item = require("../Item.js");
+var Promotion = require("../Promotion.js");
+
 function findItems() {
 
 this.loadAllItems = function  () {
@@ -21,4 +24,4 @@ this.loadPromotions = function() {
   ];
 };
 }
-//module.exports
+module.exports = findItems;

@@ -2,10 +2,10 @@ var findItems = require("./test/fixtures.js");
 
 function CartItem() {
   this.barcode = '';
-  this.count = 0;
+  this.count = 0.00;
   this.name = '';
   this.unit = '';
-  this.price= 0;
+  this.price= 0.00;
 }
 
 CartItem.prototype.addCartItem = function(object) {
@@ -18,6 +18,7 @@ CartItem.prototype.addCartItem = function(object) {
       this.count = object.count;
       this.name = allItems[i].name;
       this.unit = allItems[i].unit;
+      this.price = allItems[i].price;
     }
   }
 };
