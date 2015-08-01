@@ -22,8 +22,8 @@ for(var i=0; i<inputs.length; ++i) {
 for(var j=0; j<subCart.products.length; j++) {
   subCartItem.addCartItem(subCart.products[j]);
   cartItems.push(subCartItem);
-
-  subPos.print(cartItems[j]);
+  var sss = cartItems[j];
+  subPos.print(sss);
 }
 subPos.printMoney();
 

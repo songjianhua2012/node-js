@@ -3,18 +3,20 @@ var findItems = require("./test/fixtures.js");
 function Pos() {
   this.total = 0.00;
   this.save = 0.00;
-  this.products = [];
-  
+  this.giveproducts = [];
+
   this.print = function(cartItem) {
-    this.products.push(cartItem);
+    this.giveproducts.push({name:cartItem.name,count:cartItem.count,unit:cartItem.unit});
+    //console.log(this.products);
+    //console.log('++++++++++++++++++++++++++');
       var str = '';
       str += '名称：' + cartItem.name + '，数量：' +
       cartItem.count + cartItem.unit + '，单价：' +
        cartItem.price.toFixed(2) + '(元)，小计：'  +
-      (getRealCount(cartItem)*cartItem.price).toFixed(2)+
+      (getRealCount(cartItem,this)*cartItem.price).toFixed(2)+
        '(元)'+'\n';
-    this.total += (getRealCount(cartItem)*cartItem.price);
-    this.save += (cartItem.count - getRealCount(cartItem))*cartItem.price;
+    this.total += (getRealCount(cartItem,this)*cartItem.price);
+    this.save += (cartItem.count - getRealCount(cartItem,this))*cartItem.price;
     console.log(str);
   };
 
@@ -22,17 +24,16 @@ function Pos() {
     var str = '----------------------\n' ;
     str += '挥泪赠送商品：\n';
 
-    for(var i = 0; i < this.products.length; i++) {
-      var subfindItems = new findItems();
-      var promotions = subfindItems.loadPromotions()[0].barcodes;
-      for(var j=0; j<promotions.length; j++) {
-      if(this.products[i].barcode == promotions[j] && this.products[i].count >= 3) {
-        sum = Math.floor(this.products[i].count/3);
-        str += '名称：' + this.products[i].name + '，数量：' +
+    for(var i = 0; i < this.giveproducts.length; i++) {
+
+        sum = Math.floor(this.giveproducts[i].count/3);
+        if(sum !== 0) {
+        str += '名称：' + this.giveproducts[i].name + '，数量：' +
         sum+'\n';
-        }
       }
-    }
+
+      }
+
 
 
     str += '----------------------\n';
@@ -43,13 +44,14 @@ function Pos() {
   };
 }
 
-function getRealCount(cartItem) {
+function getRealCount(cartItem,that) {
   var subfindItems = new findItems();
   var promotions = subfindItems.loadPromotions()[0].barcodes;
   var sum = 0;
   for(var i=0; i<promotions.length; i++) {
       if(cartItem.barcode == promotions[i] && cartItem.count >= 3) {
         sum = (cartItem.count - Math.floor(cartItem.count/3));
+        //(that.giveproducts).push({name:cartItem.name,count:Math.floor(cartItem.count/3),unit:cartItem.unit});
         return sum;
       }
   }
