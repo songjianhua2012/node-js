@@ -1,19 +1,21 @@
 var Cart = require("../../module/Cart.js");
 
 describe("Cart",function() {
+  var subCart;
+  beforeEach(function() {
+
+    subCart = new Cart();
+  });
+
   describe("constructor",function() {
     it("should be right object",function() {
-      var subCart = new Cart();
       expect(subCart.products[0]).toBe(undefined);
-      //subCart.addProduct('TYPE0001',3);
-      //expect(subCart.products[0].barcode).toBe('TYPE0001');
-      //expect(subCart.products[0].count).toBe(3);
+
     });
   });
 
   describe("addProduct",function() {
     it("should be right products",function() {
-      var subCart = new Cart();
       //expect(subCart.products[0]).toBe(undefined);
       subCart.addProduct('TYPE0001',3);
       expect(subCart.products[0].barcode).toBe('TYPE0001');

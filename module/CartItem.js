@@ -1,4 +1,7 @@
-var findItems = require("./test/fixtures.js");
+//var findItems = require("./test/fixtures.js");
+var allItems = [];
+//var Item = require("./Item.js");
+
 
 function CartItem() {
   this.barcode = '';
@@ -8,9 +11,14 @@ function CartItem() {
   this.price= 0.00;
 }
 
+CartItem.loadAllItems = function(items) {
+  allItems = items;
+  //console.log(allItems);
+};
+
 CartItem.prototype.addCartItem = function(object) {
-  var subfindItem = new findItems();
-  var allItems = subfindItem.loadAllItems();
+  //var subfindItem = new findItems();
+  //var allItems = CartItem.loadAllItems(items);
 
   for(var i=0; i<allItems.length; i++) {
     if(object.barcode === allItems[i].barcode) {
