@@ -1,34 +1,46 @@
-//var findItems = require("./test/fixtures.js");
+var findItems = require("./test/fixtures.js");
+
+var Item = require("./Item.js");
 var allItems = [];
-//var Item = require("./Item.js");
 
-
-function CartItem() {
-  this.barcode = '';
-  this.count = 0.00;
+function CartItem(barcode,count) {
+  this.barcode = barcode;
+  this.count = count;
   this.name = '';
   this.unit = '';
   this.price= 0.00;
 }
 
-CartItem.loadAllItems = function(items) {
+/*CartItem.loadAllItems = function(items) {
   allItems = items;
-  //console.log(allItems);
-};
+};*/
 
-CartItem.prototype.addCartItem = function(object) {
-  //var subfindItem = new findItems();
-  //var allItems = CartItem.loadAllItems(items);
+CartItem.prototype.getInfo = function() {
+  var subfindItem = new findItems();
+  allItems = subfindItem.loadAllItems();
 
   for(var i=0; i<allItems.length; i++) {
-    if(object.barcode === allItems[i].barcode) {
-      this.barcode = object.barcode;
-      this.count = object.count;
+    if(this.barcode === allItems[i].barcode) {
       this.name = allItems[i].name;
       this.unit = allItems[i].unit;
       this.price = allItems[i].price;
     }
   }
+};
+
+CartItem.prototype.getSubtotal = function() {
+  return this.price * (this.count - this.getPromotionCount());
+};
+
+
+CartItem.prototype.getPromotionCount = function() {
+  var promotionCount = 0;
+  for(var i=0; i<allItems.length; i++) {
+    if(this.barcode == allItems[i].barcode && this.count >= 3) {
+      promotionCount = Math.floor(this.count/3);
+    }
+  }
+  return promotionCount;
 };
 
 module.exports = CartItem;

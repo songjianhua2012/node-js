@@ -1,33 +1,42 @@
 var Cart = require("../../module/Cart.js");
+var CartItem = require("../../module/CartItem.js");
 
 describe("Cart",function() {
   var subCart;
+  var subCartItem;
+
   beforeEach(function() {
-
     subCart = new Cart();
-  });
-
-  describe("constructor",function() {
-    it("should be right object",function() {
-      expect(subCart.products[0]).toBe(undefined);
-
-    });
+    subCart.addProduct('ITEM000000', 1);
+    subCart.addProduct('ITEM000001', 2);
   });
 
   describe("addProduct",function() {
     it("should be right products",function() {
-      //expect(subCart.products[0]).toBe(undefined);
-      subCart.addProduct('TYPE0001',3);
-      expect(subCart.products[0].barcode).toBe('TYPE0001');
-      expect(subCart.products[0].count).toBe(3);
+      expect(subCart.products[0].barcode).toBe('ITEM000000');
+      expect(subCart.products[1].barcode).toBe('ITEM000001');
+    });
+  });
 
-      subCart.addProduct('TYPE0001',3);
-      expect(subCart.products[0].barcode).toBe('TYPE0001');
-      expect(subCart.products[0].count).toBe(6);
+  describe("should right totalprice",function() {
+    it("calculate total",function() {
+      subCart.addProduct('ITEM000001',1);
+      subCart.products.forEach(function(val) {
+        val.getInfo();
+      });
+      expect(subCart.getSubtotalPrice()).toBe(9);
+      //expect(subCart.products[0].count).toBe(6);
+    });
+  });
 
-      subCart.addProduct('TYPE0002',1);
-      expect(subCart.products[1].barcode).toBe('TYPE0002');
-      expect(subCart.products[1].count).toBe(1);
+  describe("save money",function() {
+    it("calculate save",function() {
+      subCart.addProduct('ITEM000001',1);
+      subCart.products.forEach(function(val) {
+        val.getInfo();
+      });
+      expect(subCart.getSaving()).toBe(3);
+      //expect(subCart.products[0].count).toBe(6);
     });
   });
 });
